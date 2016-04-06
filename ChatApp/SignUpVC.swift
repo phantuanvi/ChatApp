@@ -48,6 +48,7 @@ class SignUpVC: UIViewController, UINavigationControllerDelegate, UIImagePickerC
             if signUpError == nil {
                 
                 print("signup")
+                self.performSegueWithIdentifier("goToUsersVC2", sender: self)
             } else {
                 
                 print("can't signup")

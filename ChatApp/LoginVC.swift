@@ -26,6 +26,7 @@ class LoginVC: UIViewController {
             
             if logInError == nil {
                 print("log in")
+                self.performSegueWithIdentifier("goToUsersVC", sender: self)
             } else {
                 print("error log in ")
             }
@@ -44,6 +45,10 @@ class LoginVC: UIViewController {
         passwordTxt.frame = CGRectMake(16, 240, theWidth-32, 30)
         loginBtn.center = CGPointMake(theWidth/2, 330)
         signupBtn.center = CGPointMake(theWidth/2, theHeight-30)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.navigationItem.hidesBackButton = true
     }
 
     override func didReceiveMemoryWarning() {
