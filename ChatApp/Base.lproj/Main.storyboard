@@ -51,6 +51,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="hdK-Oc-qkv"/>
+                    <connections>
+                        <outlet property="loginBtn" destination="5Pq-Af-0vw" id="3dy-qM-blQ"/>
+                        <outlet property="passwordTxt" destination="Yh8-1A-R1q" id="UnW-Dc-jcC"/>
+                        <outlet property="signupBtn" destination="a1j-5o-tbd" id="6mJ-25-TcE"/>
+                        <outlet property="usernameTxt" destination="Wjv-ZJ-Uf2" id="x4A-Re-JXr"/>
+                        <outlet property="welcomeLabel" destination="50I-Dk-7uM" id="OPd-7b-vEp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VKB-Nx-QUL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -72,6 +79,9 @@
                                 <rect key="frame" x="228" y="121" width="71" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="add Photo"/>
+                                <connections>
+                                    <action selector="addImgBtn_click:" destination="A7N-0d-iia" eventType="touchUpInside" id="1z9-Ni-Jm5"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" id="XzL-4u-k6d">
                                 <rect key="frame" x="20" y="213" width="279" height="30"/>
@@ -97,11 +107,22 @@
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Sign Up"/>
+                                <connections>
+                                    <action selector="signupBtn_click:" destination="A7N-0d-iia" eventType="touchUpInside" id="UYK-EU-BGs"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Vha-HF-Uah"/>
+                    <connections>
+                        <outlet property="addImgBtn" destination="SJ2-GD-q10" id="ZU4-zY-CKe"/>
+                        <outlet property="passwordTxt" destination="6FP-cB-tQk" id="WiM-ea-SmP"/>
+                        <outlet property="profileImg" destination="BFD-hh-OcX" id="8Nr-Yw-6je"/>
+                        <outlet property="profileNameTxt" destination="6j5-Z0-zGg" id="wpB-jH-s5e"/>
+                        <outlet property="signupBtn" destination="Zfq-Cp-5wy" id="53z-PF-yQg"/>
+                        <outlet property="usernameTxt" destination="XzL-4u-k6d" id="1g1-54-dOM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j3Z-Rg-PzW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
