@@ -7,14 +7,31 @@
 //
 
 import UIKit
+import Parse
 
 class LoginVC: UIViewController {
 
+    // MARK: IBOutlet
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var usernameTxt: UITextField!
     @IBOutlet weak var passwordTxt: UITextField!
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var signupBtn: UIButton!
+    
+    // MARK: IBAction
+    @IBAction func loginBtn_click(sender: UIButton) {
+        
+        PFUser.logInWithUsernameInBackground(usernameTxt.text!, password: passwordTxt.text!) {
+            (user: PFUser?, logInError: NSError?) -> Void in
+            
+            if logInError == nil {
+                print("log in")
+            } else {
+                print("error log in ")
+            }
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
