@@ -48,6 +48,11 @@ class SignUpVC: UIViewController, UINavigationControllerDelegate, UIImagePickerC
             if signUpError == nil {
                 
                 print("signup")
+                
+                let installation: PFInstallation = PFInstallation.currentInstallation()
+                installation["user"] = PFUser.currentUser()
+                installation.saveInBackground()
+                
                 self.performSegueWithIdentifier("goToUsersVC2", sender: self)
             } else {
                 

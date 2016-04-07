@@ -25,7 +25,13 @@ class LoginVC: UIViewController {
             (user: PFUser?, logInError: NSError?) -> Void in
             
             if logInError == nil {
+                
                 print("log in")
+                
+                let installation: PFInstallation = PFInstallation.currentInstallation()
+                installation["user"] = PFUser.currentUser()
+                installation.saveInBackground()
+                
                 self.performSegueWithIdentifier("goToUsersVC", sender: self)
             } else {
                 print("error log in ")

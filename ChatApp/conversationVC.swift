@@ -59,6 +59,20 @@ class conversationVC: UIViewController {
                 
                 if success == true {
                     
+                    let uQuery: PFQuery = PFUser.query()!
+                    uQuery.whereKey("username", equalTo: otherName)
+
+                    let pushQuery: PFQuery = PFInstallation.query()!
+                    pushQuery.whereKey("user", matchesQuery: uQuery)
+                    
+                    let push: PFPush = PFPush()
+                    push.setQuery(pushQuery)
+                    push.setMessage("New Message")
+                    do {
+                        try push.sendPush()
+                    } catch {}
+                    print("push sent")
+                    
                     print("message sent")
                     self.messageTextView.text = ""
                     self.mLbl.hidden = false
@@ -100,6 +114,8 @@ class conversationVC: UIViewController {
         let tapScrollViewGesture = UITapGestureRecognizer(target: self, action: "didTapScrollView")
         tapScrollViewGesture.numberOfTapsRequired = 1
         resultsScrollView.addGestureRecognizer(tapScrollViewGesture)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "getMessageFunc", name: "getMessage", object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -144,6 +160,11 @@ class conversationVC: UIViewController {
     }
     
     // MARK: my function
+    func getMessageFunc() {
+        
+        refreshResults()
+    }
+    
     func keyboardWasShow(notification: NSNotification) {
         
         let dict: NSDictionary = notification.userInfo!
