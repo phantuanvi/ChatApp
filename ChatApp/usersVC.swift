@@ -108,4 +108,13 @@ extension usersVC: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! resultsCell
+        
+        otherName = cell.usernameLbl.text!
+        otherProfileName = cell.profileNameLbl.text!
+        self.performSegueWithIdentifier("goToConversationVC", sender: self)
+    }
 }
