@@ -20,6 +20,7 @@ class conversationVC: UIViewController {
     @IBOutlet weak var lineLbl: UILabel!
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var sendBtn: UIButton!
+    //@IBOutlet weak var blockBtn: UIBarButtonItem!
     
     // MARK: variables
     var scrollViewOriginalY: CGFloat = 0
@@ -42,9 +43,26 @@ class conversationVC: UIViewController {
     var resultsImageFiles = [PFFile]()
     var resultsImageFiles2 = [PFFile]()
     
+    var isBlocked = false
+    
+    var blockBtn = UIBarButtonItem()
+    var reportBtn = UIBarButtonItem()
+    
     // MARK: IBAction
     
     @IBAction func sendBtn_click(sender: UIButton) {
+        
+        if isBlocked == true {
+            
+            print("you are blocked!!!!")
+            return
+        }
+        
+        if blockBtn.title == "Unblock" {
+            
+            print("you have blocked this user!!! unblock to send message")
+            return
+        }
         
         if messageTextView.text == "" {
             
@@ -116,9 +134,38 @@ class conversationVC: UIViewController {
         resultsScrollView.addGestureRecognizer(tapScrollViewGesture)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "getMessageFunc", name: "getMessage", object: nil)
+        
+        blockBtn.title = ""
+        blockBtn = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("blockBtn_click"))
+        reportBtn = UIBarButtonItem(title: "Report", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("reportBtn_click"))
+        let buttonArray = NSArray(objects: blockBtn, reportBtn)
+        self.navigationItem.rightBarButtonItems = buttonArray as? [UIBarButtonItem]
     }
     
     override func viewDidAppear(animated: Bool) {
+        
+        let checkQuery = PFQuery(className: "Block")
+        checkQuery.whereKey("user", equalTo: otherName)
+        checkQuery.whereKey("blocked", equalTo: userName)
+        let objects2 = try! checkQuery.findObjects()
+        
+        if objects2.count > 0 {
+            
+            isBlocked = true
+        } else {
+            
+            isBlocked = false
+        }
+        
+        let blockQuery = PFQuery(className: "Block")
+        blockQuery.whereKey("user", equalTo: userName)
+        blockQuery.whereKey("blocked", equalTo: otherName)
+        let objects0 = try! blockQuery.findObjects()
+        if objects0.count > 0 {
+            self.blockBtn.title = "Unblock"
+        } else {
+            self.blockBtn.title = "Block"
+        }
         
         let query = PFQuery(className: "_User")
         query.whereKey("username", equalTo: userName)
@@ -160,6 +207,42 @@ class conversationVC: UIViewController {
     }
     
     // MARK: my function
+    func reportBtn_click() {
+        
+        print("report pressed")
+        
+        let addReport = PFObject(className: "Report")
+        addReport.setObject(userName, forKey: "user")
+        addReport.setObject(otherName, forKey: "reported")
+        addReport.saveInBackground()
+        
+        print("report sent")
+    }
+    
+    func blockBtn_click() {
+        
+        if blockBtn.title == "Block" {
+            
+            let addBlock = PFObject(className: "Block")
+            addBlock.setObject(userName, forKey: "user")
+            addBlock.setObject(otherName, forKey: "blocked")
+            addBlock.saveInBackground()
+            self.blockBtn.title = "Unblock"
+        } else {
+            
+            let query: PFQuery = PFQuery(className: "Block")
+            query.whereKey("user", equalTo: userName)
+            query.whereKey("blocked", equalTo: otherName)
+            let objects = try! query.findObjects()
+            
+            for object in objects {
+                
+                object.deleteInBackground()
+            }
+            self.blockBtn.title = "Block"
+        }
+    }
+    
     func getMessageFunc() {
         
         refreshResults()
