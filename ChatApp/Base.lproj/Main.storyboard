@@ -133,6 +133,64 @@
             </objects>
             <point key="canvasLocation" x="1130" y="301"/>
         </scene>
+        <!--Group ConversationVC-->
+        <scene sceneID="o2t-fc-N1h">
+            <objects>
+                <viewController id="sgS-m4-KZn" customClass="groupConversationVC" customModule="ChatApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cfd-mE-Rgh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="yMR-ot-d4P">
+                                <rect key="frame" x="0.0" y="64" width="320" height="445"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </scrollView>
+                            <view contentMode="scaleToFill" id="H6o-Dz-Zaw">
+                                <rect key="frame" x="0.0" y="512" width="320" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fsW-NB-s3d">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" id="CEj-Pg-7dY">
+                                        <rect key="frame" x="2" y="0.0" width="264" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Rs5-kg-Ea1">
+                                        <rect key="frame" x="270" y="5" width="50" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Send"/>
+                                        <connections>
+                                            <action selector="sendBtn_click:" destination="sgS-m4-KZn" eventType="touchUpInside" id="tUG-ji-NoO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="BbU-BJ-LT2"/>
+                    <connections>
+                        <outlet property="frameMessageView" destination="H6o-Dz-Zaw" id="cGY-Im-5f7"/>
+                        <outlet property="lineLbl" destination="fsW-NB-s3d" id="Mqm-al-Db1"/>
+                        <outlet property="messageTextView" destination="CEj-Pg-7dY" id="5yv-4e-LE9"/>
+                        <outlet property="resultsScrollView" destination="yMR-ot-d4P" id="zmD-cr-jOK"/>
+                        <outlet property="sendBtn" destination="Rs5-kg-Ea1" id="QHA-xA-G46"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c9g-bo-OEO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1718" y="1774"/>
+        </scene>
         <!--Groups-->
         <scene sceneID="eOg-7w-Ikc">
             <objects>
@@ -172,15 +230,20 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Groups" id="eEv-5p-Sfo">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="b8v-Hw-v53"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="b8v-Hw-v53">
+                            <connections>
+                                <action selector="addGroupBtn_click:" destination="mkm-zr-NCl" id="Sar-Tk-QzP"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="resultsTable" destination="hi9-US-yy3" id="fU8-FL-LR6"/>
+                        <segue destination="sgS-m4-KZn" kind="push" identifier="goToGroupConversationVC_FromGroupVC" id="egV-wP-Ztl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pwj-rp-KkI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="476" y="1746"/>
+            <point key="canvasLocation" x="1281" y="1774"/>
         </scene>
         <!--Users-->
         <scene sceneID="a20-4w-EYC">
@@ -318,7 +381,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KxG-if-jI6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="866" y="1746"/>
+            <point key="canvasLocation" x="866" y="1774"/>
         </scene>
         <!--Conversation-->
         <scene sceneID="SIJ-1x-Unh">
@@ -402,6 +465,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="GYX-5Y-IFL"/>
-        <segue reference="rwf-2l-xYO"/>
+        <segue reference="ief-ye-f36"/>
     </inferredMetricsTieBreakers>
 </document>

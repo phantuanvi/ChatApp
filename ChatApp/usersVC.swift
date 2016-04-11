@@ -45,8 +45,13 @@ class usersVC: UIViewController {
         self.navigationItem.rightBarButtonItems = buttonArray as? [UIBarButtonItem]
         
         userName = PFUser.currentUser()!.username!
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        resultsUsernameArray.removeAll(keepCapacity: false)
+        resultsProfileNameArray.removeAll(keepCapacity: false)
+        resultsImageFiles.removeAll(keepCapacity: false)
         
-        // get data for resultsUsernameArray
         let predicate = NSPredicate(format: "username != '"+userName+"'")
         let query = PFQuery(className: "_User", predicate: predicate)
         let objects = try! query.findObjects()
@@ -59,7 +64,6 @@ class usersVC: UIViewController {
             self.resultsTableView.reloadData()
         }
     }
-    
     
     override func viewWillAppear(animated: Bool) {
         self.navigationItem.hidesBackButton = true

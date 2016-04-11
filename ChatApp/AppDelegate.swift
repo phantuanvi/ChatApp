@@ -44,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         NSNotificationCenter.defaultCenter().postNotificationName("getMessage", object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("getGroupMessage", object: nil)
     }
 
     func applicationWillResignActive(application: UIApplication) {

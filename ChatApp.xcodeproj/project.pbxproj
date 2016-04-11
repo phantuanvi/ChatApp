@@ -11,6 +11,7 @@
 		0C1699891CBB5A38003E9E53 /* messageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1699881CBB5A38003E9E53 /* messageCell.swift */; };
 		0C16998B1CBB988B003E9E53 /* groupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C16998A1CBB988A003E9E53 /* groupVC.swift */; };
 		0C16998D1CBB99B0003E9E53 /* groupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C16998C1CBB99B0003E9E53 /* groupCell.swift */; };
+		0C16998F1CBBA206003E9E53 /* groupConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C16998E1CBBA206003E9E53 /* groupConversationVC.swift */; };
 		0C3DFF681CB51B100055D571 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3DFF671CB51B100055D571 /* AppDelegate.swift */; };
 		0C3DFF6D1CB51B100055D571 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C3DFF6B1CB51B100055D571 /* Main.storyboard */; };
 		0C3DFF6F1CB51B100055D571 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C3DFF6E1CB51B100055D571 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 		0C1699881CBB5A38003E9E53 /* messageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = messageCell.swift; sourceTree = "<group>"; };
 		0C16998A1CBB988A003E9E53 /* groupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = groupVC.swift; sourceTree = "<group>"; };
 		0C16998C1CBB99B0003E9E53 /* groupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = groupCell.swift; sourceTree = "<group>"; };
+		0C16998E1CBBA206003E9E53 /* groupConversationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = groupConversationVC.swift; sourceTree = "<group>"; };
 		0C3DFF641CB51B100055D571 /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C3DFF671CB51B100055D571 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C3DFF6C1CB51B100055D571 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				0C1699881CBB5A38003E9E53 /* messageCell.swift */,
 				0C16998A1CBB988A003E9E53 /* groupVC.swift */,
 				0C16998C1CBB99B0003E9E53 /* groupCell.swift */,
+				0C16998E1CBBA206003E9E53 /* groupConversationVC.swift */,
 				0C3DFF6B1CB51B100055D571 /* Main.storyboard */,
 				0C3DFF6E1CB51B100055D571 /* Assets.xcassets */,
 				0C3DFF701CB51B100055D571 /* LaunchScreen.storyboard */,
@@ -221,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C3DFF7A1CB51BC10055D571 /* LoginVC.swift in Sources */,
+				0C16998F1CBBA206003E9E53 /* groupConversationVC.swift in Sources */,
 				0C1699891CBB5A38003E9E53 /* messageCell.swift in Sources */,
 				0C3DFF7C1CB51D070055D571 /* SignUpVC.swift in Sources */,
 				0C3DFF681CB51B100055D571 /* AppDelegate.swift in Sources */,

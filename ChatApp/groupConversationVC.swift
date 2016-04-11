@@ -1,18 +1,17 @@
 //
-//  conversationVC.swift
+//  groupConversationVC.swift
 //  ChatApp
 //
-//  Created by Tuan-Vi Phan on 4/7/16.
+//  Created by Tuan-Vi Phan on 4/11/16.
 //  Copyright © 2016 Tuan-Vi Phan. All rights reserved.
 //
 
 import UIKit
 import Parse
 
-var otherName = ""
-var otherProfileName = ""
+var groupConversationVC_title = ""
 
-class conversationVC: UIViewController, UIScrollViewDelegate {
+class groupConversationVC: UIViewController, UIScrollViewDelegate {
     
     // MARK: IBOutlet
     @IBOutlet weak var resultsScrollView: UIScrollView!
@@ -20,11 +19,16 @@ class conversationVC: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var lineLbl: UILabel!
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var sendBtn: UIButton!
-    //@IBOutlet weak var blockBtn: UIBarButtonItem!
-    
+
     // MARK: variables
     var scrollViewOriginalY: CGFloat = 0
     var frameMessageOriginalY: CGFloat = 0
+    
+    var myImg: UIImage? = UIImage()
+    
+    var resultsImageFiles = [PFFile]()
+    var resultsImageFiles2 = [PFFile]()
+    
     let mLbl = UILabel(frame: CGRectMake(5, 8, 200, 20))
     
     var messageX: CGFloat = 37.0
@@ -36,69 +40,6 @@ class conversationVC: UIViewController, UIScrollViewDelegate {
     
     var messageArray = [String]()
     var senderArray = [String]()
-    
-    var myImg: UIImage? = UIImage()
-    var otherImg: UIImage? = UIImage()
-    
-    var resultsImageFiles = [PFFile]()
-    var resultsImageFiles2 = [PFFile]()
-    
-    var isBlocked = false
-    
-    var blockBtn = UIBarButtonItem()
-    var reportBtn = UIBarButtonItem()
-    
-    // MARK: IBAction
-    
-    @IBAction func sendBtn_click(sender: UIButton) {
-        
-        if isBlocked == true {
-            
-            print("you are blocked!!!!")
-            return
-        }
-        
-        if blockBtn.title == "Unblock" {
-            
-            print("you have blocked this user!!! unblock to send message")
-            return
-        }
-        
-        if messageTextView.text == "" {
-            
-            print("no text")
-        } else {
-            
-            let messageDBTable = PFObject(className: "Message")
-            messageDBTable["sender"] = userName
-            messageDBTable["other"] = otherName
-            messageDBTable["message"] = self.messageTextView.text
-            messageDBTable.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
-                
-                if success == true {
-                    
-                    let uQuery: PFQuery = PFUser.query()!
-                    uQuery.whereKey("username", equalTo: otherName)
-
-                    let pushQuery: PFQuery = PFInstallation.query()!
-                    pushQuery.whereKey("user", matchesQuery: uQuery)
-                    
-                    let push: PFPush = PFPush()
-                    push.setQuery(pushQuery)
-                    push.setMessage("New Message")
-                    do {
-                        try push.sendPush()
-                    } catch {}
-                    print("push sent")
-                    
-                    print("message sent")
-                    self.messageTextView.text = ""
-                    self.mLbl.hidden = false
-                    self.refreshResults()
-                }
-            })
-        }
-    }
     
     // MARK: viewDidLoad
     override func viewDidLoad() {
@@ -119,12 +60,11 @@ class conversationVC: UIViewController, UIScrollViewDelegate {
         scrollViewOriginalY = self.resultsScrollView.frame.origin.y
         frameMessageOriginalY = self.frameMessageView.frame.origin.y
         
-        self.title = otherProfileName
-        
         mLbl.text = "Type a message..."
         mLbl.backgroundColor = UIColor.clearColor()
         mLbl.textColor = UIColor.lightGrayColor()
         messageTextView.addSubview(mLbl)
+        
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWasShow:", name: UIKeyboardDidShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
@@ -133,162 +73,90 @@ class conversationVC: UIViewController, UIScrollViewDelegate {
         tapScrollViewGesture.numberOfTapsRequired = 1
         resultsScrollView.addGestureRecognizer(tapScrollViewGesture)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "getMessageFunc", name: "getMessage", object: nil)
-        
-        blockBtn.title = ""
-        blockBtn = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("blockBtn_click"))
-        reportBtn = UIBarButtonItem(title: "Report", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("reportBtn_click"))
-        let buttonArray = NSArray(objects: blockBtn, reportBtn)
-        self.navigationItem.rightBarButtonItems = buttonArray as? [UIBarButtonItem]
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "getGroupMessageFunc", name: "getGroupMessage", object: nil)
     }
-    
+
     override func viewDidAppear(animated: Bool) {
-        
-        let checkQuery = PFQuery(className: "Block")
-        checkQuery.whereKey("user", equalTo: otherName)
-        checkQuery.whereKey("blocked", equalTo: userName)
-        let objects2 = try! checkQuery.findObjects()
-        
-        if objects2.count > 0 {
-            
-            isBlocked = true
-        } else {
-            
-            isBlocked = false
-        }
-        
-        let blockQuery = PFQuery(className: "Block")
-        blockQuery.whereKey("user", equalTo: userName)
-        blockQuery.whereKey("blocked", equalTo: otherName)
-        let objects0 = try! blockQuery.findObjects()
-        if objects0.count > 0 {
-            self.blockBtn.title = "Unblock"
-        } else {
-            self.blockBtn.title = "Block"
-        }
+        self.title = groupConversationVC_title
         
         let query = PFQuery(className: "_User")
         query.whereKey("username", equalTo: userName)
         let objects = try! query.findObjects()
-        
         self.resultsImageFiles.removeAll(keepCapacity: false)
-        
         for object in objects {
             
             self.resultsImageFiles.append(object["photo"] as! PFFile)
             self.resultsImageFiles[0].getDataInBackgroundWithBlock({ (imageData: NSData?, error: NSError?) -> Void in
-                
                 if error == nil {
+                    
                     self.myImg = UIImage(data: imageData!)
-                    let query2 = PFQuery(className: "_User")
-                    query2.whereKey("username", equalTo: otherName)
-                    let objects2 = try! query2.findObjects()
-                    
-                    self.resultsImageFiles2.removeAll(keepCapacity: false)
-                    
-                    for object in objects2 {
-                        self.resultsImageFiles2.append(object["photo"] as! PFFile)
-                        self.resultsImageFiles2[0].getDataInBackgroundWithBlock({ (imageData: NSData?, error: NSError?) -> Void in
-                            if error == nil {
-                                self.otherImg = UIImage(data: imageData!)
-                                self.refreshResults()
-                            }
-                        })
-                    }
-
+                    self.refreshResults()
                 }
             })
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-    // MARK: my function
-    func reportBtn_click() {
-        
-        print("report pressed")
-        
-        let addReport = PFObject(className: "Report")
-        addReport.setObject(userName, forKey: "user")
-        addReport.setObject(otherName, forKey: "reported")
-        addReport.saveInBackground()
-        
-        print("report sent")
-    }
+    // MARK: IBAction
     
-    func blockBtn_click() {
+    @IBAction func sendBtn_click(sender: UIButton) {
         
-        if blockBtn.title == "Block" {
-            
-            let addBlock = PFObject(className: "Block")
-            addBlock.setObject(userName, forKey: "user")
-            addBlock.setObject(otherName, forKey: "blocked")
-            addBlock.saveInBackground()
-            self.blockBtn.title = "Unblock"
+        if messageTextView.text == "" {
+            print("no text")
         } else {
             
-            let query: PFQuery = PFQuery(className: "Block")
-            query.whereKey("user", equalTo: userName)
-            query.whereKey("blocked", equalTo: otherName)
-            let objects = try! query.findObjects()
-            
-            for object in objects {
+            let groupMessageTable = PFObject(className: "GroupMessages")
+            groupMessageTable["group"] = groupConversationVC_title
+            groupMessageTable["sender"] = userName
+            groupMessageTable["message"] = self.messageTextView.text
+            groupMessageTable.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
                 
-                object.deleteInBackground()
-            }
-            self.blockBtn.title = "Block"
-        }
+                if success == true {
+                    
+                    var senderSet = Set([""])
+                    senderSet.removeAll(keepCapacity: false)
+                    
+                    for var i = 0; i <= self.senderArray.count - 1; i++ {
+                        
+                        if self.senderArray[i] != userName {
+                            senderSet.insert(self.senderArray[i])
+                        }
+                    }
+                    
+                    let senderSetArray: NSArray = Array(senderSet)
+                    for var i2 = 0; i2 <= senderSetArray.count-1; i2++ {
+                        print(senderSetArray[i2])
+                        
+                        let uQuery: PFQuery = PFUser.query()!
+                        uQuery.whereKey("username", equalTo: senderSetArray[i2])
+                        
+                        let pushQuery: PFQuery = PFInstallation.query()!
+                        pushQuery.whereKey("user", matchesQuery: uQuery)
+                        
+                        let push: PFPush = PFPush()
+                        push.setQuery(pushQuery)
+                        push.setMessage("New Group Message")
+                        push.sendPushInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
+                            
+                        })
+                        print("push sent")
+                    }
+                    print("message sent")
+                    self.messageTextView.text = ""
+                    self.mLbl.hidden = false
+                    self.refreshResults()
+                }
+            })
+        } // end else
     }
     
-    func getMessageFunc() {
-        
+    // MARK: myfunction
+    func getGroupMessageFunc() {
         refreshResults()
     }
     
-    func keyboardWasShow(notification: NSNotification) {
-        
-        let dict: NSDictionary = notification.userInfo!
-        let s: NSValue = dict.valueForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
-        let rect: CGRect = s.CGRectValue()
-        
-        UIView.animateWithDuration(0.3, delay: 0, options: .CurveLinear, animations: { () -> Void in
-            
-            self.resultsScrollView.frame.origin.y = self.scrollViewOriginalY - rect.height
-            self.frameMessageView.frame.origin.y = self.frameMessageOriginalY - rect.height
-            
-            let bottomOffset: CGPoint = CGPointMake(0, self.resultsScrollView.contentSize.height - self.resultsScrollView.bounds.size.height)
-            self.resultsScrollView.setContentOffset(bottomOffset, animated: false)
-            }) { (finished: Bool) -> Void in
-                
-        }
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        
-        UIView.animateWithDuration(0.3, delay: 0, options: .CurveLinear, animations: { () -> Void in
-            
-            self.resultsScrollView.frame.origin.y = self.scrollViewOriginalY
-            self.frameMessageView.frame.origin.y = self.frameMessageOriginalY
-            
-            let bottomOffset: CGPoint = CGPointMake(0, self.resultsScrollView.contentSize.height - self.resultsScrollView.bounds.size.height)
-            self.resultsScrollView.setContentOffset(bottomOffset, animated: false)
-            }) { (finished: Bool) -> Void in
-                
-        }
-    }
-    
-    func didTapScrollView() {
-        
-        self.view.endEditing(true)
-    }
-    
     func refreshResults() {
-        
         let theWidth = view.frame.size.width
-//        let theHeight = view.frame.size.height
+        //        let theHeight = view.frame.size.height
         
         messageX = 37.0
         messageY = 26.0
@@ -300,13 +168,8 @@ class conversationVC: UIViewController, UIScrollViewDelegate {
         messageArray.removeAll(keepCapacity: false)
         senderArray.removeAll(keepCapacity: false)
         
-        let innerP1 = NSPredicate(format: "sender = %@ AND other = %@", userName, otherName)
-        let innerQ1: PFQuery = PFQuery(className: "Message", predicate: innerP1)
-        
-        let innerP2 = NSPredicate(format: "sender = %@ AND other = %@", otherName, userName)
-        let innerQ2: PFQuery = PFQuery(className: "Message", predicate: innerP2)
-        
-        let query = PFQuery.orQueryWithSubqueries([innerQ1, innerQ2])
+        let query = PFQuery(className: "GroupMessages")
+        query.whereKey("group", equalTo: groupConversationVC_title)
         query.addAscendingOrder("createdAt")
         query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
             
@@ -391,7 +254,22 @@ class conversationVC: UIViewController, UIScrollViewDelegate {
                         self.frameY += frameLbl.frame.size.height + 20
                         
                         let img: UIImageView = UIImageView()
-                        img.image = self.otherImg
+                        
+                        // get image for another user
+                        let query = PFQuery(className: "_User")
+                        query.whereKey("username", equalTo: self.senderArray[i])
+                        let objects = try! query.findObjects()
+                        self.resultsImageFiles2.removeAll(keepCapacity: false)
+                        for object in objects {
+                            
+                            self.resultsImageFiles2.append(object["photo"] as! PFFile)
+                            self.resultsImageFiles2[0].getDataInBackgroundWithBlock({ (imageData: NSData?, error: NSError?) -> Void in
+                                if error == nil {
+                                    img.image = UIImage(data: imageData!)
+                                }
+                            })
+                        }
+                        
                         img.frame = CGRectMake(self.imgX, self.imgY, 34, 34)
                         img.layer.zPosition = 30
                         img.layer.cornerRadius = img.frame.size.width/2
@@ -407,10 +285,47 @@ class conversationVC: UIViewController, UIScrollViewDelegate {
                 }
             }
         }
+    } // end refreshResult()
+    
+    func keyboardWasShow(notification: NSNotification) {
+        
+        let dict: NSDictionary = notification.userInfo!
+        let s: NSValue = dict.valueForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let rect: CGRect = s.CGRectValue()
+        
+        UIView.animateWithDuration(0.3, delay: 0, options: .CurveLinear, animations: { () -> Void in
+            
+            self.resultsScrollView.frame.origin.y = self.scrollViewOriginalY - rect.height
+            self.frameMessageView.frame.origin.y = self.frameMessageOriginalY - rect.height
+            
+            let bottomOffset: CGPoint = CGPointMake(0, self.resultsScrollView.contentSize.height - self.resultsScrollView.bounds.size.height)
+            self.resultsScrollView.setContentOffset(bottomOffset, animated: false)
+            }) { (finished: Bool) -> Void in
+                
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        
+        UIView.animateWithDuration(0.3, delay: 0, options: .CurveLinear, animations: { () -> Void in
+            
+            self.resultsScrollView.frame.origin.y = self.scrollViewOriginalY
+            self.frameMessageView.frame.origin.y = self.frameMessageOriginalY
+            
+            let bottomOffset: CGPoint = CGPointMake(0, self.resultsScrollView.contentSize.height - self.resultsScrollView.bounds.size.height)
+            self.resultsScrollView.setContentOffset(bottomOffset, animated: false)
+            }) { (finished: Bool) -> Void in
+                
+        }
+    }
+    
+    func didTapScrollView() {
+        
+        self.view.endEditing(true)
     }
 }
 
-extension conversationVC: UITextViewDelegate {
+extension groupConversationVC: UITextViewDelegate {
     
     func textViewDidChange(textView: UITextView) {
         

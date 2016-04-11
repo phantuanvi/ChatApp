@@ -39,12 +39,15 @@ class LoginVC: UIViewController {
         }
     }
     
-    
+    // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let theWidth = view.frame.size.width
         let theHeight = view.frame.size.height
+        
+        usernameTxt.delegate = self
+        passwordTxt.delegate = self
         
         welcomeLabel.center = CGPointMake(theWidth/2, 130)
         usernameTxt.frame = CGRectMake(16, 200, theWidth-32, 30)
@@ -57,20 +60,57 @@ class LoginVC: UIViewController {
         self.navigationItem.hidesBackButton = true
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
+}
+
+extension LoginVC: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        usernameTxt.resignFirstResponder()
+        passwordTxt.resignFirstResponder()
+
+        return true
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
     }
-    */
-
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        
+        let theWidth = view.frame.size.width
+        let theHeight = view.frame.size.height
+        
+        if(UIScreen.mainScreen().bounds.height == 568) {
+            if(textField == self.passwordTxt) {
+                
+                UIView.animateWithDuration(0.3, delay: 0, options: .CurveLinear, animations: { () -> Void in
+                    
+                    self.view.center = CGPointMake(theWidth/2, (theHeight/2)-40)
+                    }, completion: { (finished: Bool) -> Void in
+                        
+                        //
+                })
+            }
+        }
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        
+        let theWidth = view.frame.size.width
+        let theHeight = view.frame.size.height
+        
+        if(UIScreen.mainScreen().bounds.height == 568) {
+            if(textField == self.passwordTxt) {
+                
+                UIView.animateWithDuration(0.3, delay: 0, options: .CurveLinear, animations: { () -> Void in
+                    
+                    self.view.center = CGPointMake(theWidth/2, theHeight/2)
+                    }, completion: { (finished: Bool) -> Void in
+                        
+                        //
+                })
+            }
+        }
+    }
 }

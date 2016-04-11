@@ -33,6 +33,8 @@ class groupVC: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         
+        groupConversationVC_title = ""
+        
         self.resultsNameArray.removeAll(keepCapacity: false)
         self.resultsNameArray2.removeAll(keepCapacity: false)
         
@@ -51,6 +53,37 @@ class groupVC: UIViewController {
                 }
             }
         }
+    }
+    
+    // MARK: IBAction
+    @IBAction func addGroupBtn_click(sender: UIBarButtonItem) {
+        
+        let alert = UIAlertController(title: "New Group", message: "Type the name of the group", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addTextFieldWithConfigurationHandler { (textField) -> Void in
+            
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+            
+            print("ok pressed")
+            let textF = alert.textFields![0]
+            let groupMessageObj = PFObject(className: "GroupMessages")
+            let theUser: String = PFUser.currentUser()!.username!
+            
+            groupMessageObj["sender"] = theUser
+            groupMessageObj["message"] = "\(theUser) created a new Group"
+            groupMessageObj["group"] = textF.text
+            
+            try! groupMessageObj.save()
+            print("group created")
+            groupConversationVC_title = textF.text!
+            self.performSegueWithIdentifier("goToGroupConversationVC_FromGroupVC", sender: self)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: { (action) -> Void in
+            
+            
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 }
 
@@ -72,6 +105,9 @@ extension groupVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! groupCell
+        //let cell = tableView.cellForRowAtIndexPath(indexPath) as! groupCell
+        
+        groupConversationVC_title = resultsNameArray2[indexPath.row]
+        self.performSegueWithIdentifier("goToGroupConversationVC_FromGroupVC", sender: self)
     }
 }
