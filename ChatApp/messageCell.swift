@@ -16,16 +16,5 @@ class messageCell: UITableViewCell {
     @IBOutlet weak var messageLbl: UILabel!
     @IBOutlet weak var usernameLbl: UILabel!
     
-    // MARK:
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
 
 }

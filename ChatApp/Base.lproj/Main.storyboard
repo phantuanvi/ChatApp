@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
-        <!--LoginVC-->
+        <!--Login-->
         <scene sceneID="Fi9-Ue-ypo">
             <objects>
                 <viewController id="dVZ-so-mtv" customClass="LoginVC" customModule="ChatApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -53,7 +53,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="hdK-Oc-qkv"/>
+                    <navigationItem key="navigationItem" title="Login" id="hdK-Oc-qkv"/>
                     <connections>
                         <outlet property="loginBtn" destination="5Pq-Af-0vw" id="3dy-qM-blQ"/>
                         <outlet property="passwordTxt" destination="Yh8-1A-R1q" id="UnW-Dc-jcC"/>
@@ -67,7 +67,7 @@
             </objects>
             <point key="canvasLocation" x="732" y="301"/>
         </scene>
-        <!--Sign UpVC-->
+        <!--SignUp-->
         <scene sceneID="GCU-kT-8x9">
             <objects>
                 <viewController id="A7N-0d-iia" customClass="SignUpVC" customModule="ChatApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -118,7 +118,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Vha-HF-Uah"/>
+                    <navigationItem key="navigationItem" title="SignUp" id="Vha-HF-Uah"/>
                     <connections>
                         <outlet property="addImgBtn" destination="SJ2-GD-q10" id="ZU4-zY-CKe"/>
                         <outlet property="passwordTxt" destination="6FP-cB-tQk" id="WiM-ea-SmP"/>
@@ -132,6 +132,55 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j3Z-Rg-PzW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1130" y="301"/>
+        </scene>
+        <!--Groups-->
+        <scene sceneID="eOg-7w-Ikc">
+            <objects>
+                <viewController id="mkm-zr-NCl" customClass="groupVC" customModule="ChatApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Nh1-sR-45r">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hi9-US-yy3">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="groupCell" id="f3e-FG-cSO" customClass="groupCell" customModule="ChatApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f3e-FG-cSO" id="0q9-ag-Gnv">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Group Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YCy-4E-Hxt">
+                                                    <rect key="frame" x="8" y="11" width="263" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="groupNameLbl" destination="YCy-4E-Hxt" id="RYu-pT-I0j"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Groups" id="eEv-5p-Sfo">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="b8v-Hw-v53"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="resultsTable" destination="hi9-US-yy3" id="fU8-FL-LR6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pwj-rp-KkI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="476" y="1746"/>
         </scene>
         <!--Users-->
         <scene sceneID="a20-4w-EYC">
@@ -190,22 +239,19 @@
                                 <action selector="logoutBtn_click:" destination="zRw-xz-Mc4" id="nmb-gD-zUo"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Messages" id="COy-g6-p4X">
-                            <connections>
-                                <segue destination="omJ-05-SfB" kind="push" id="QpP-BX-vIt"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="resultsTableView" destination="FmE-As-wIV" id="e30-VO-LNK"/>
                         <segue destination="efc-WB-xTc" kind="push" identifier="goToConversationVC" id="rwf-2l-xYO"/>
+                        <segue destination="omJ-05-SfB" kind="push" identifier="goToMessagesVC_FromUsersVC" id="qR0-et-Sdr"/>
+                        <segue destination="mkm-zr-NCl" kind="push" identifier="goToGroupVC_FromUsersVC" id="8mT-Cz-Ma5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pdk-dW-S6o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="866" y="1045"/>
         </scene>
-        <!--MessagesVC-->
+        <!--Messages-->
         <scene sceneID="KV4-Ul-Kzs">
             <objects>
                 <viewController id="omJ-05-SfB" customClass="messagesVC" customModule="ChatApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -264,7 +310,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ePe-jl-uLe"/>
+                    <navigationItem key="navigationItem" title="Messages" id="ePe-jl-uLe"/>
                     <connections>
                         <outlet property="resultsTable" destination="niG-Hk-fva" id="Sxr-M1-Q9P"/>
                         <segue destination="efc-WB-xTc" kind="push" identifier="goToConversationVC2" id="ief-ye-f36"/>
@@ -274,7 +320,7 @@
             </objects>
             <point key="canvasLocation" x="866" y="1746"/>
         </scene>
-        <!--ConversationVC-->
+        <!--Conversation-->
         <scene sceneID="SIJ-1x-Unh">
             <objects>
                 <viewController id="efc-WB-xTc" customClass="conversationVC" customModule="ChatApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -319,7 +365,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="0mS-4j-MwZ"/>
+                    <navigationItem key="navigationItem" title="Conversation" id="0mS-4j-MwZ"/>
                     <connections>
                         <outlet property="frameMessageView" destination="7U2-In-ANx" id="j00-Sp-fcB"/>
                         <outlet property="lineLbl" destination="KzE-Ld-QPx" id="kPs-tl-BIx"/>
@@ -356,6 +402,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="GYX-5Y-IFL"/>
-        <segue reference="ief-ye-f36"/>
+        <segue reference="rwf-2l-xYO"/>
     </inferredMetricsTieBreakers>
 </document>

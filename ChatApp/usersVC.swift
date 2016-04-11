@@ -39,15 +39,17 @@ class usersVC: UIViewController {
         
         resultsTableView.frame = CGRectMake(0, 0, theHeight, theHeight-64)
         
-        userName = PFUser.currentUser()!.username!
-    }
-    
-    override func viewDidAppear(animated: Bool) {
+        let messagesBarBtn = UIBarButtonItem(title: "Messages", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("messagesBtn_click"))
+        let groupBarBtn = UIBarButtonItem(title: "Group", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("groupBtn_click"))
+        let buttonArray = NSArray(objects: messagesBarBtn, groupBarBtn)
+        self.navigationItem.rightBarButtonItems = buttonArray as? [UIBarButtonItem]
         
+        userName = PFUser.currentUser()!.username!
+        
+        // get data for resultsUsernameArray
         let predicate = NSPredicate(format: "username != '"+userName+"'")
         let query = PFQuery(className: "_User", predicate: predicate)
         let objects = try! query.findObjects()
-        
         for object in objects {
             let us: PFUser = object as! PFUser
             self.resultsUsernameArray.append(us.username!)
@@ -58,25 +60,21 @@ class usersVC: UIViewController {
         }
     }
     
+    
     override func viewWillAppear(animated: Bool) {
         self.navigationItem.hidesBackButton = true
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // MARK: myfunction
+    func messagesBtn_click() {
+        print("messages")
+        self.performSegueWithIdentifier("goToMessagesVC_FromUsersVC", sender: self)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func groupBtn_click() {
+        print("group")
+        self.performSegueWithIdentifier("goToGroupVC_FromUsersVC", sender: self)
     }
-    */
 
 }
 
