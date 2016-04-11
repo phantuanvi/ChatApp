@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C1699871CBB58F4003E9E53 /* messagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1699861CBB58F4003E9E53 /* messagesVC.swift */; };
+		0C1699891CBB5A38003E9E53 /* messageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1699881CBB5A38003E9E53 /* messageCell.swift */; };
 		0C3DFF681CB51B100055D571 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3DFF671CB51B100055D571 /* AppDelegate.swift */; };
 		0C3DFF6D1CB51B100055D571 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C3DFF6B1CB51B100055D571 /* Main.storyboard */; };
 		0C3DFF6F1CB51B100055D571 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C3DFF6E1CB51B100055D571 /* Assets.xcassets */; };
@@ -32,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C1699861CBB58F4003E9E53 /* messagesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = messagesVC.swift; sourceTree = "<group>"; };
+		0C1699881CBB5A38003E9E53 /* messageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = messageCell.swift; sourceTree = "<group>"; };
 		0C3DFF641CB51B100055D571 /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C3DFF671CB51B100055D571 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C3DFF6C1CB51B100055D571 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -107,6 +111,8 @@
 				0C3DFF981CB5461A0055D571 /* usersVC.swift */,
 				0C3DFF9A1CB548300055D571 /* resultsCell.swift */,
 				0C3DFF9C1CB5FF7E0055D571 /* conversationVC.swift */,
+				0C1699861CBB58F4003E9E53 /* messagesVC.swift */,
+				0C1699881CBB5A38003E9E53 /* messageCell.swift */,
 				0C3DFF6B1CB51B100055D571 /* Main.storyboard */,
 				0C3DFF6E1CB51B100055D571 /* Assets.xcassets */,
 				0C3DFF701CB51B100055D571 /* LaunchScreen.storyboard */,
@@ -209,8 +215,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C3DFF7A1CB51BC10055D571 /* LoginVC.swift in Sources */,
+				0C1699891CBB5A38003E9E53 /* messageCell.swift in Sources */,
 				0C3DFF7C1CB51D070055D571 /* SignUpVC.swift in Sources */,
 				0C3DFF681CB51B100055D571 /* AppDelegate.swift in Sources */,
+				0C1699871CBB58F4003E9E53 /* messagesVC.swift in Sources */,
 				0C3DFF991CB5461B0055D571 /* usersVC.swift in Sources */,
 				0C3DFF9B1CB548300055D571 /* resultsCell.swift in Sources */,
 				0C3DFF9D1CB5FF7F0055D571 /* conversationVC.swift in Sources */,
@@ -379,6 +387,7 @@
 				0C3DFF781CB51B100055D571 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
